@@ -1,0 +1,54 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+</head>
+<body>
+    <script>
+
+        var sound_on_click = (function() {
+
+            // --- setup audio logic
+
+            var array_audio_files = []; // array to hold list available media filenames
+
+            array_audio_files.push("horse.mp3");
+            array_audio_files.push("horse.mp3");
+            array_audio_files.push("horse.mp3");
+
+            var play_sound = function (given_index) {
+
+                var cool_tune = new Audio(array_audio_files[given_index]);
+
+                cool_tune.play();
+            };
+
+            // --- event emit
+
+            var event_collision = new Event("see_a_collision"); // define new event type
+
+            document.addEventListener("see_a_collision", function(e) { 
+
+                // randomly pick a media file from all available
+                var index_media_file = Math.floor(Math.random() * array_audio_files.length);
+
+                console.log("about to play sound ", index_media_file);
+
+                play_sound(index_media_file);
+            });
+
+
+            // --- below is a mock up of some collision condition
+
+            (function mock_collision(){
+
+                document.dispatchEvent(event_collision); // collision happened so emit event
+
+                setTimeout(mock_collision, 1000); // launch every x milliseconds
+
+            }());
+
+        }());
+
+    </script>
+</body>
+</html>
